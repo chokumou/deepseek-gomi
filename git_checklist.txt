@@ -1,0 +1,75 @@
+🧠 Gitで作業を始める前の安全チェックリスト
+
+🔐 1. 現在のGitユーザー情報を確認する
+
+以下のコマンドは VSCのターミナル や Windowsのコマンドプロンプト（cmd） で実行できます：
+
+git config user.name
+# => 例: chokumou
+
+git config user.email
+# => 例: chokumou4649@gmail.com
+
+※ --global の設定も確認したいときは：
+
+git config --global user.name
+
+🏠 2. 作業しているフォルダが正しいか確認
+
+pwd
+
+正しいプロジェクトフォルダにいるかチェック（例：/g/develop/gomi-search-app）
+
+個人用と会社用を間違えないようにする！
+
+🌲 3. GitのリモートURLを確認（どこにpushされるか）
+
+git remote -v
+
+origin のURLが想定しているGitHubアカウントか？
+
+chokumou（個人）なのか
+
+hacca-salon（会社）なのか
+
+📁 4. プッシュ対象のファイルを確認する
+
+git status
+
+追加予定のファイルに、個人の秘密ファイルや画像、設定ファイルが含まれていないか？
+
+🧹 5. .gitignore が適切か？
+
+node_modules/ や .env など、不要なファイルがGitに入らないように .gitignore を確認
+
+個人設定や秘密情報は 絶対にGitに含めない！
+
+🔁 6. SSHキーとアカウントが一致しているか？
+
+~/.ssh/config で現在のプロジェクトに設定されたSSHキーを確認
+
+個人アカウントと会社アカウントで 違うキーを使ってるか？
+
+🧪 7. pushする前に必ず再確認！
+
+git diff --cached
+
+ステージされた差分が本当に公開していいものか？
+
+🧯 トラブル回避の豆知識
+
+念のため、Pushする前にPullしてからコンフリクトがないか確認する癖をつける
+
+git pull origin main
+
+わからなければすぐ push しないで確認する
+
+🧾 もし誤ってPushしてしまったら？
+
+すぐにリモートから該当ファイルを削除する
+
+GitHubのコミット履歴も消したい場合はForce Pushが必要（危険なので要相談）
+
+これを1回読むだけで事故防止率がグンと上がるよ✨
+
+※ このマニュアルも .txt や README.md に入れておくと安心！
