@@ -1,0 +1,57 @@
+🧰 使うソフト
+- Git Bash（またはターミナル）：コマンド入力用
+- GitHub：リモートリポジトリ（個人用・会社用など複数）
+- Visual Studio Code（VSC）：コード編集
+- SSH（Secure Shell）：アカウントごとに認証を切り替える
+
+🎯 目的
+複数のGitHubアカウント（例：個人用と会社用）を1台のPCで使い分けるために、SSHキーを分けて設定し、git push/pull する時にアカウントを自動で切り替えられるようにする。
+
+🪪 アカウントごとの準備（1回だけでOK）
+
+① SSHキーを作成（アカウントごとに）
+# 個人用（例: personal）
+ssh-keygen -t ed25519 -C "your_email@example.com" -f ~/.ssh/id_ed25519_personal
+
+# 会社用（例: hacca）
+ssh-keygen -t ed25519 -C "your_company_email@example.com" -f ~/.ssh/id_ed25519_hacca
+
+② GitHubに公開鍵を登録（アカウントごと）
+1. GitHubの Settings → SSH and GPG keys
+2. 「New SSH key」で ~/.ssh/id_ed25519_〇〇.pub の中身をコピペ
+3. personal用とhacca用、両方登録する
+
+③ ~/.ssh/config を編集して使い分ける設定
+
+nano ~/.ssh/config
+
+中身はこんな感じで追加👇
+# 個人用
+Host github.com-personal
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_personal
+
+# 会社用
+Host github.com-hacca
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/id_ed25519_hacca
+
+🚀 プロジェクトごとの使い分け方法
+
+① git clone する時（リモートURLを分ける）
+# 個人用
+git clone git@github.com-personal:yourname/your-repo.git
+
+# 会社用
+git clone git@github.com-hacca:hacca-salon/your-repo.git
+
+② 既存プロジェクトの origin を変更する時
+# 会社用プロジェクトに切り替えたいとき
+git remote set-url origin git@github.com-hacca:hacca-salon/project-name.git
+
+📝 その他のヒント
+- whoami で現在のユーザー確認
+- ssh -T git@github.com-xxx で接続確認
+- .ssh/config を編集したら保存（nanoなら Ctrl+O → Enter → Ctrl+X）
